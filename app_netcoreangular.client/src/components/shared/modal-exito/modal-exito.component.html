@@ -1,0 +1,27 @@
+<!-- BODY -->
+<mat-dialog-content class="mb-body">
+    <!-- Close -->
+    <div class="close-section">
+        <span class="material-symbols-rounded" (click)="onNoClick()">
+            close
+        </span>
+    </div>
+    <!-- Icono -->
+    <div class="p-2 text-center mt-3">
+        <span class="material-symbols-rounded ok-icon">done</span>
+    </div>
+    <!-- Mensajes -->
+    <p class="p-titulo text-center mt-3">
+        ¡Éxito!
+    </p>
+    <p class="p-descripcion text-center mt-2">
+        {{modulo}}: <span>{{valor}}</span>
+    </p>
+</mat-dialog-content>
+<!-- ACCIONES -->
+<mat-dialog-actions class="text-end">
+    <button type="button" class="btn btn-success" (click)="onNoClick()">
+        <span class="material-symbols-rounded">done</span>
+        Aceptar
+    </button>
+</mat-dialog-actions>

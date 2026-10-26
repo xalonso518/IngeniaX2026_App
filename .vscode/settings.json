@@ -1,0 +1,4 @@
+{
+    "appService.preDeployTask": "publish-release",
+    "appService.deploySubpath": "App_NetCoreAngular.Server/bin/Release/net10.0/publish"
+}

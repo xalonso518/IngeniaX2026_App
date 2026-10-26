@@ -15,7 +15,7 @@ interface WeatherForecast {
   styleUrl: './app.css'
 })
 export class App implements OnInit { 
-  public forecasts = signal<WeatherForecast[]>([]);;
+  public forecasts = signal<WeatherForecast[]>([]);
 
   constructor(private http: HttpClient) {}
 
@@ -25,7 +25,6 @@ export class App implements OnInit {
 
   getForecasts() {
     var url = 'http://localhost:5044/weatherforecast';
-    //var url = 'https://localhost:7272/weatherforecast';
     this.http.get<WeatherForecast[]>(url).subscribe(
       (result) => {
         this.forecasts.set(result);

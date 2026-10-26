@@ -35,7 +35,9 @@
               }
             ],
             "styles": [
-              "src/styles.css"
+              "src/material-theme.scss",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "public/css/styles.css"
             ]
           },
           "configurations": {

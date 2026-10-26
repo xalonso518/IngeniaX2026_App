@@ -1,0 +1,49 @@
+/*  Nav  bar */
+.navbar-main {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.nav-user {
+  line-height: normal;
+  font-size: 12px;
+  text-align: right;
+}
+
+.user-profile {
+  height: 38px;
+  width: 38px;
+  cursor: pointer;
+  background: #222;
+  border-radius: 50px;
+  text-align: center;
+}
+
+.user-profile span {
+    vertical-align: middle;
+    color: #fff;
+    font-size: 28px;
+    margin: 5px;
+}
+
+.user-profile-a {
+  vertical-align: sub;
+  background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);
+  background-image: linear-gradient(to top, #901e60 0%, #db67aa 100%);
+}
+
+.user-profile-img {
+  vertical-align: sub;
+}
+
+
+.nav-menu-text {
+  display: block;
+  padding: 0px 12px 0px 12px;
+  font-size: 11px;
+}
+
+a{
+  color: #4c4c4c !important
+}

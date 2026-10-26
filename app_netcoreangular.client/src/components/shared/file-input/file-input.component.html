@@ -1,0 +1,32 @@
+<div class="file-drop-zone" (drop)="drop($event, name, ext)" (dragover)="dragover($event)" (dragleave)="dragleave($event)">
+    <div class="file-zone">
+        @if(ext[0] == 'cer' || ext[0] == 'key'){
+        <div>
+            <input class="ng-hide" id="{{name}}" type="file" accept=".{{ext}}" multiple (change)="onChange($event, name, ext)" />
+        </div>
+        }
+        @if(ext[0] != 'cer' && ext[0] != 'key'){
+        <div>
+            <input class="ng-hide" id="{{name}}" type="file" multiple (change)="onChange($event, name, ext)" />
+        </div>
+        }
+        <label [class.hide]="imagen != undefined && imagen != ''" for="{{name}}" class="md-button md-raised md-primary" [style.opacity]="fileInput.file && !reset? '0': '1'">
+            <span class="material-symbols-rounded">backup</span>
+            {{placeholder}}
+        </label>
+        @if(fileInput != null){
+        <div class="img-result">
+            @if(showImage){
+            <img [src]="_DomSanitizationService.bypassSecurityTrustUrl(fileInput.src)">
+            }
+            @if(fileInput.file && !showImage && !reset){
+            <span class="material-symbols-rounded">file_present</span>
+            }
+            <p [style.opacity]="reset ? '0': '1'" title="fileInput.file.name">{{fileInput.file.name}}</p>
+        </div>
+        }
+    </div>
+    @if(imagen != undefined && imagen != '' && fileInput.file == ''){
+    <div class="img-back"></div>
+    }
+</div>

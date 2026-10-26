@@ -1,0 +1,32 @@
+<div class="main-app">
+    <!-- LOADING GLOBAL -->
+    @if(loadingService.getOpened()){
+    <app-loading class="back_loading"></app-loading>
+    } 
+    <!-- NAV BAR -->
+    <mat-toolbar class="main-header" id="main-header">
+        <div class="main-header-logo">
+            <a [routerLink]="['']">
+                <img src="img/logo_ingenia.png" class="img-fluid" alt="Ingenia" />
+            </a>
+        </div>
+        <app-main-nav-bar style="width: stretch;"></app-main-nav-bar>
+    </mat-toolbar>
+
+    <!-- CONTENIDO -->
+    <mat-sidenav-container class="main-sidenav" id="main-container">
+        <!-- SIDE BAR -->
+        <mat-sidenav #sidenav mode="side" [(opened)]="side_true" class="main-sidenav-menu"
+                     [class]="{'main-sidenav-menu-small' : !opened()}" id="main-sidebar">
+            <app-main-side-bar class="sidebar-content" [(opened)]="opened"></app-main-side-bar>
+        </mat-sidenav>
+
+        <!-- MAIN CONTENT -->
+        <mat-sidenav-content class="main-sidenav-container"
+                             [class]="{'main-sidenav-container-small' : !opened()}" id="main-content">
+
+            <router-outlet></router-outlet>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>
+

@@ -1,0 +1,181 @@
+<!-- CONTENEDOR -->
+<div class="container-fluid">
+    <!-- BREADCRUMD -->
+    <div class="row">
+        <div class="col-6 col-sm-6 d-flex align-items-center">
+            <span class="material-symbols-rounded bread-icon">group</span>
+            <span class="bread-txt">Usuarios</span>
+        </div>
+        <div class="col-6 col-sm-6 text-end">
+            <button type="button" class="btn btn-primary btn-sm" (click)="openAgregar()">
+                <span class="material-symbols-rounded">add_circle</span>
+                Usuario
+            </button>
+        </div>
+    </div>
+    <!-- BOX BUSCAR -->
+    <div class="row mt-2">
+        <div class="col-12">
+            <div class="box-buscar">
+                <!-- Header de busqueda-->
+                <div class="row box-buscar-head">
+                    <!-- Input buscar -->
+                    <div class="col-7 col-sm-4">
+                        <div class="input-group">
+                            <input type="text" id="filtro0" name="filtro0" [(ngModel)]="filtro" (keyup.enter)="buscarPorPalabra()" class="form-control form-control-sm input-buscar" placeholder="Buscar..." maxlength="50">
+                            <span class="input-group-text input-buscar-icon" style="cursor: pointer" (click)="buscarUsuarios()">
+                                <span class="material-symbols-rounded">
+                                    search
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                    <!-- Filtro 1 -->
+                    <!-- <div class="d-none col-12 col-sm-4 d-sm-block">
+                        <mat-button-toggle-group [(ngModel)]="rol" aria-label="Font Style" [hideSingleSelectionIndicator]="true" (change)="buscarPorPalabra()">
+                            <mat-button-toggle value="0">Todos</mat-button-toggle>
+                            <mat-button-toggle value="3">Ejecutivos</mat-button-toggle>
+                            <mat-button-toggle value="4">Clientes</mat-button-toggle>
+                        </mat-button-toggle-group>
+                    </div> -->
+                    <!-- Order -->
+                    <div class="col-5 col-sm-8 d-flex justify-content-end">
+                        <button class="btn btn-sm" [matMenuTriggerFor]="menu">
+                            <span class="material-symbols-rounded me-1">filter_list</span>
+                            {{sortHead[sortByIndex].value}}
+                        </button>
+                        <mat-menu #menu="matMenu">
+                            @for(sort of sortHead; track $index){
+                            <button mat-menu-item (click)="changeSort(sort.key, $index)">{{sort.value}}</button>
+                            }
+                        </mat-menu>
+                    </div>
+                </div>
+                <!-- Body Respuesta -->
+                <div class="row box-buscar-body mt-2 mb-3">
+                    @if(loading()){
+                    <!-- Loading -->
+                    <div class="search-loading">
+                        <mat-spinner [diameter]="24"></mat-spinner>
+                        <span>Buscando...</span>
+                    </div>
+                    }@else{
+                    @if(!loading() && (usuarios() == null || usuarios().length == 0)){
+                    <!-- Sin resultados -->
+                    <app-sin-resultados [boton_text]="'+ Usuarios'"></app-sin-resultados>
+                    }
+                    @else{
+                    <!-- Resultados -->
+                    <div class="list-items">
+                        <!-- Encabezado -->
+                        <div class="row row-head d-none d-md-flex">
+                            <div class="col col-12 col-md-3">
+                                <p>Usuario</p>
+                            </div>
+                            <div class="col col-12 col-md-2">
+                                <p>Nombre</p>
+                            </div>
+                            <div class="col col-12 col-md-2">
+                                <p>Tipo</p>
+                            </div>
+                            <div class="col col-12 col-md-2">
+                                <p>Contacto</p>
+                            </div>
+                            <div class="col col-12 col-md-1">
+                                <p>Fecha alta</p>
+                            </div>
+                            <div class="col col-12 col-md-1 text-center">
+                                <p>Estado</p>
+                            </div>
+                            <div class="col col-12 col-md-1">
+                                <p></p>
+                            </div>
+                        </div>
+                        @for (usuario of usuarios(); track $index) {
+                        <!-- Filas resultados -->
+                        <div class="row row-body d-flex align-items-center" style="--index: {{ $index }}">
+                            <!-- Columnas resultados -->
+                            <div class="col col-12 col-md-3 d-flex align-items-center row-img-content">
+                                @if(usuario.imagenPerfil == "" || usuario.imagenPerfil == undefined) {
+                                <span class="material-symbols-rounded list-img-profile">person</span>
+                                }
+                                @else {
+                                <div [style.background-image]="'url(' + configService.getUrlPublicUsuario() + '/' + usuario.imagenPerfil + ')'" class="img-perfil-list"></div>
+                                }
+                                <p>{{usuario.username}}</p>
+                            </div>
+                            <div class="col col-12 col-md-2">
+                                <p>{{usuario.nombre}}</p>
+                            </div>
+                            <div class="col col-12 col-md-2">
+                                @if(usuario.rol == 1) { <p>👑&nbsp;Adminitrador</p> }
+                                @if(usuario.rol == 0) { <p>Usuario</p> }
+                            </div>
+                            <div class="col col-12 col-md-2">
+                                <p>{{usuario.telefono}}</p>
+                                <p class="item-secundary">{{usuario.email}}</p>
+                            </div>
+                            <div class="col col-12 col-md-1">
+                                <p>{{usuario.dateCreated  | date: 'dd/MM/yyyy'}}</p>
+                            </div>
+                            <div class="col col-6 col-md-1 text-center">
+                                <!-- Chip status -->
+                                <app-chip-status [status]="usuario.estado"></app-chip-status>
+                            </div>
+                            <div class="col col-6 col-md-1 d-flex justify-content-end">
+                                <!-- Menu opciones -->
+                                <button class="btn btn-icon" [matMenuTriggerFor]="menuOpciones">
+                                    <span class="material-symbols-rounded">menu</span>
+                                </button>
+                                <mat-menu #menuOpciones="matMenu">
+                                    <a mat-menu-item (click)="openEditar(usuario)">
+                                        <span class="material-symbols-rounded">edit</span>
+                                        Editar
+                                    </a>
+                                    <a mat-menu-item (click)="openEditarPassword(usuario)">
+                                        <span class="material-symbols-rounded">passkey</span>
+                                        Cambiar contraseña
+                                    </a>
+                                    @if(usuario.estado == 1){
+                                    <a mat-menu-item (click)="editarEstado(usuario, 2)">
+                                        <span class="material-symbols-rounded">toggle_off</span>
+                                        Desactivar
+                                    </a>
+                                    }@else{
+                                    <a mat-menu-item (click)="editarEstado(usuario, 1)">
+                                        <span class="material-symbols-rounded">toggle_on</span>
+                                        Activar
+                                    </a>
+                                    }
+                                    <a mat-menu-item (click)="openConfirmarEliminar(usuario)">
+                                        <span class="material-symbols-rounded">delete</span>
+                                        Eliminar
+                                    </a>
+                                </mat-menu>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                    }
+                    }
+                </div>
+                <!-- Footer -->
+                <div class="row box-buscar-foot">
+                    <!-- Paginator -->
+                    @if(!loading() && usuarios() != null && usuarios().length > 0){
+                    <div class="list-paginator">
+                        <mat-paginator [length]="totalRegistros"
+                                       [pageSize]="pageSize"
+                                       [hidePageSize]="true"
+                                       [pageIndex]="page"
+                                       [showFirstLastButtons]="true"
+                                       (page)="cambiarPagina($event)">
+                        </mat-paginator>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

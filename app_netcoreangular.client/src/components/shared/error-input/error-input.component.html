@@ -1,0 +1,7 @@
+@if (form_input.touched() && form_input.invalid()) {
+<ul class="error-list">
+    @for (error of form_input.errors(); track error) {
+    <li>{{ error.message }}</li>
+    }
+</ul>
+}

@@ -1,0 +1,41 @@
+<div class="navbar-main">
+    @if(_iUser != null){
+    <div class="d-flex flex-column me-3">
+        <span class="nav-user">{{_iUser.nombre}}</span>
+        <span class="nav-user">{{_iUser.username}}</span>
+    </div>
+    }
+    <!-- IMAGEN PERFIL -->
+    <div class="user-profile">
+        @if(_iUser.imagenPerfil == '' || _iUser.imagenPerfil == undefined){
+        <a [matMenuTriggerFor]="menu" title="Perfil" class="user-profile-span">
+            <span class="material-symbols-rounded">
+                person
+            </span>
+        </a>
+        }@else{
+        <a [matMenuTriggerFor]="menu" title="Perfil" class="user-profile-img">
+            <div [style.background-image]="'url(' + configService.getUrlPublicUsuario() + '/' + _iUser.imagenPerfil + ')'" class="img-perfil-nav"></div>
+        </a>
+        }
+        <!-- Menu opciones -->
+        <mat-menu #menu="matMenu">
+            <a mat-menu-item>
+                <span class="material-symbols-rounded">assignment_ind</span>
+                Perfil
+            </a>
+            <a mat-menu-item>
+                <span class="material-symbols-rounded">notifications</span>
+                Notificaciones
+            </a>
+            <a mat-menu-item>
+                <span class="material-symbols-rounded">help</span>
+                Ayuda
+            </a>
+            <a mat-menu-item (click)="logout()">
+                <span class="material-symbols-rounded">logout</span>
+                Salir
+            </a>
+        </mat-menu>
+    </div>
+</div>

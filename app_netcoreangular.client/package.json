@@ -14,16 +14,20 @@
   "private": true,
   "packageManager": "npm@10.9.8",
   "dependencies": {
+    "@angular/cdk": "^22.2.1",
     "@angular/common": "^22.0.0",
     "@angular/compiler": "^22.0.0",
     "@angular/core": "^22.0.0",
     "@angular/forms": "^22.0.0",
+    "@angular/material": "^22.2.1",
     "@angular/platform-browser": "^22.0.0",
     "@angular/router": "^22.0.0",
-    "rxjs": "~7.8.0",
-    "tslib": "^2.3.0",
+    "bootstrap": "^5.3.8",
     "jest-editor-support": "*",
-    "run-script-os": "*"
+    "jwt-decode": "^4.0.0",
+    "run-script-os": "*",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0"
   },
   "devDependencies": {
     "@angular/build": "^22.0.5",

@@ -1,0 +1,29 @@
+<!-- MENU -->
+<div class="box-menu">
+    <a routerLinkActive="menuActive" [routerLink]="[SpaRoutes.SPA_USUARIO_BUSCAR]" title="Usuarios">
+        <div class="box-menu-element">
+            <span class="material-symbols-rounded">group</span>
+            <span class="bme-text">Usuarios</span>
+        </div>
+    </a>
+    <a routerLinkActive="menuActive" [routerLink]="[SpaRoutes.SPA_PRODUCTO_BUSCAR]" title="Productos">
+        <div class="box-menu-element">
+            <span class="material-symbols-rounded">package_2</span>
+            <span class="bme-text">Productos</span>
+        </div>
+    </a>
+</div>
+<!-- Boton para abrir menu -->
+<div class="box-foot-menu">
+    <button matMiniFab aria-label="Ocultar" (click)="opened.set(!opened())">
+        @if(opened()==true){
+        <span class="material-symbols-rounded notranslate" style="transform: rotateZ(180deg)">
+            menu_open
+        </span>
+        }@else{
+        <span class="material-symbols-rounded notranslate">
+            menu_open
+        </span>
+        }
+    </button>
+</div>

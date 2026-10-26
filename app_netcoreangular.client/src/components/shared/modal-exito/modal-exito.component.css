@@ -1,0 +1,26 @@
+.mat-mdc-dialog-title {
+  background: #fff !important;
+  border-bottom: 0px !important;
+}
+
+.mat-mdc-dialog-actions {
+  justify-content: center !important;
+  background: #fff;
+}
+
+.p-titulo {
+  text-align: center;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.p-descripcion {
+}
+
+.ok-icon {
+  background: var(--green-color);
+  color: #ffffff;
+  padding: 10px;
+  border-radius: 45px;
+  font-size: 42px;
+}

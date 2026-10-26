@@ -1,0 +1,70 @@
+<!-- Contenedor para imagen de fondo -->
+<div class="back-img">
+    <div class="container">
+        <!-- Fila con el contenido en medio -->
+        <div class="row d-flex justify-content-center">
+            <!-- Columna de tamañano 4 para md, 10 xs -->
+            <div class="col-12 col-xs-10 col-sm-8 col-md-4">
+                <!-- Div con estilo blur -->
+                <div class="box-blur mt-5">
+                    <!-- Div para imágen de logo -->
+                    <div class="text-center div-logo">
+                        <img src="img/logo_ingenia.png" class="img-fluid" alt="...">
+                    </div>
+                    <br />
+                    <!-- Titulo -->
+                    <h1>Bienvenido!</h1>
+                    <p>Aplicación usuarios y productos</p>
+                    <br />
+                    <!-- Formulario -->
+                    <form #loginForm="ngForm" ngNativeValidate (ngSubmit)="submit(loginForm.value)">
+                        <!-- Input email con label -->
+                        <div class=" mb-3">
+                            <label for="email" class="form-label">Usuario</label>
+                            <div class="input-group">
+                                <input type="email" id="email" name="email" [(ngModel)]="loginModel().email" #email="ngModel" class="form-control form-control-sm" placeholder="usuario@prasad.com.mx" aria-label="Username">
+                                <span class="input-group-text">
+                                    <span class="material-symbols-rounded">
+                                        person
+                                    </span>
+                                </span>
+                            </div>
+                            <!-- Mensaje de error -->
+                            @if (email.invalid && (email.dirty || email.touched)) { <span class="span-error">{{errores.REQUIRED}}</span> }
+                        </div>
+                        <!-- Input password con label -->
+                        <div class="mb-3">
+                            <label for="pass" class="form-label">Contraseña</label>
+                            <div class="input-group">
+                                <input type="password" id="password" name="password" [(ngModel)]="loginModel().password" #password="ngModel" class="form-control form-control-sm" placeholder="pass***">
+                                <span class="input-group-text">
+                                    <span class="material-symbols-rounded">
+                                        password
+                                    </span>
+                                </span>
+                            </div>
+                            <!-- Mensaje de error -->
+                            @if (password.invalid && (password.dirty || password.touched)) { <span class="span-error">{{errores.REQUIRED}}</span> }
+                        </div>
+                        <!-- Ruta a reset password -->
+                        <div class="mb-3">
+                            <a routerLink="/auth/reset">¿Olvidaste tu contraseña?</a>
+                        </div>
+                        <!-- Boton login -->
+                        <div class="text-end">
+                            <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid || submitted()">
+                                Iniciar sesión
+                                <!-- Validación para mostrar icono loading -->
+                                @if (submitted()) {
+                                <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                                }@else{
+                                <span class="material-symbols-rounded">login</span>
+                                }
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
