@@ -20,7 +20,7 @@ Terminal -> Nueva terminal
 
 ### -Clona el repositorio (crea una copia de forma local)
 ```
-git clone https://github.com/xalonso518/App_NetCoreAngular.git
+git clone https://github.com/xalonso518/IngeniaX2026_App.git
 ```
 <br/>
 <br/>
