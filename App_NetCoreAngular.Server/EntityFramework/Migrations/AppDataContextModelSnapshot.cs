@@ -22,6 +22,55 @@ namespace App_NetCoreAngular.Server.EntityFramework.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("App_NetCoreAngular.Server.Models.Productos.Producto", b =>
+                {
+                    b.Property<long>("ProductoId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("ProductoId"));
+
+                    b.Property<string>("Codigo")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<int>("Estado")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Existencia")
+                        .HasPrecision(12, 2)
+                        .HasColumnType("decimal(12,2)");
+
+                    b.Property<string>("Imagen")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<decimal>("Precio")
+                        .HasPrecision(12, 2)
+                        .HasColumnType("decimal(12,2)");
+
+                    b.HasKey("ProductoId");
+
+                    b.ToTable("Productos");
+                });
+
             modelBuilder.Entity("App_NetCoreAngular.Server.Models.Usuarios.Usuario", b =>
                 {
                     b.Property<long>("UsuarioId")
@@ -87,9 +136,9 @@ namespace App_NetCoreAngular.Server.EntityFramework.Migrations
                             Estado = 1,
                             Guid = "g00",
                             Nombre = "Usuario admin",
-                            Password = "efe6398127928f1b2e9ef3207fb82663",
+                            Password = "8251F956D4727352AEC6AC2CDEC839D9",
                             Rol = 1,
-                            Username = "admin"
+                            Username = "admin@ingeniax.mx"
                         });
                 });
 #pragma warning restore 612, 618

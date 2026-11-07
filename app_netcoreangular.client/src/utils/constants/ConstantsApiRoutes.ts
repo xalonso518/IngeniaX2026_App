@@ -26,6 +26,7 @@ export class ConstantsApiRoutes {
   public static get PRODUCTO_EDITAR_ESTADO(): string { return "/api/producto/estado"; };
   public static get PRODUCTO_ELIMINAR(): string { return "/api/producto/eliminar"; }
   public static get PRODUCTO_EDITAR_IMG(): string { return "/api/producto/img"; }
+  public static get PRODUCTO_EDITAR_IMG_BLOB(): string { return "/api/producto/imgBlob"; }
 
   /* PAGO */
   public static get PAGO_CHECKOUT(): string { return "/api/pago/checkout"; };

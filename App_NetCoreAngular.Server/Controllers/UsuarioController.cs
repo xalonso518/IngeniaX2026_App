@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using static App_NetCoreAngular.Server.Enums.EnumDatabase;
 
-namespace App_IngeniaX_2026.Server.Controllers
+namespace App_NetCoreAngular.Server.Controllers
 {
     [Authorize]
     [ApiController]
@@ -18,7 +18,6 @@ namespace App_IngeniaX_2026.Server.Controllers
     {
         // ID
         private readonly IUsuarioRepository _usuarioRepository;
-        private readonly ILogger<AuthController> _logger;
 
         public UsuarioController(
             IUsuarioRepository usuarioRepository,
@@ -26,7 +25,6 @@ namespace App_IngeniaX_2026.Server.Controllers
             )
         {
             _usuarioRepository = usuarioRepository;
-            _logger = logger;
         }
 
         // Obtenemos valores del claims del usuario autenticado

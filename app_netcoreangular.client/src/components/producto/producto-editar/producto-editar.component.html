@@ -1,0 +1,145 @@
+<div class="container-fluid">
+    <!-- BREADCRUMD -->
+    <div class="row">
+        <div class="col-12 col-sm-6 d-flex align-items-center">
+            <span class="material-symbols-rounded color-txt-title">package_2</span>
+            <a class="bread-a" routerLink="/producto">Productos &nbsp;</a>
+            <span class="txt-title">/ &nbsp; Editar</span>
+        </div>
+    </div>
+    <!-- CARD -->
+    <div class="row">
+        <!-- Editar datos generales -->
+        <div class="col-12 col-sm-6">
+            <div class="card box-shadow-main mt-2">
+                <!-- Header -->
+                <div class="card-header">
+                    <div class="box-icon">
+                        <span class="material-symbols-rounded">package_2</span>
+                    </div>
+                    <span class="card-txt-title">Editar producto</span>
+                </div>
+                <!-- Body form -->
+                <form #editarForm="ngForm" ngNativeValidate (ngSubmit)="submit(editarForm.value)">
+                    <div class="card-body">
+                        <!-- Titulo -->
+                        <p class="form-title">Datos generales</p>
+                        <!-- Fila -->
+                        <div class="row">
+                            <div class="col-12 col-sm-4">
+                                <label for="nombre" class="form-label">Nombre *</label>
+                                <div class="input-group">
+                                    <input type="text" id="nombre" name="nombre" [(ngModel)]="form().nombre" #nombre="ngModel" class="form-control form-control-sm" placeholder="Nombre(s) Apellido(s)" required maxlength="250">
+                                </div>
+                                @if (nombre.invalid && (nombre.dirty || nombre.touched)) { <span class="span-error">{{errores.REQUIRED}}</span> }
+                            </div>
+                            <div class="col-12 col-sm-4">
+                                <label for="codigo" class="form-label">Código</label>
+                                <div class="input-group">
+                                    <input type="text" id="codigo" name="codigo" [(ngModel)]="form().codigo" class="form-control form-control-sm" placeholder="Correo secundario" maxlength="50">
+                                    <span class="input-group-text">
+                                        <span class="material-symbols-rounded">
+                                            mail
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-4">
+                                <label for="descripcion" class="form-label">Descripción</label>
+                                <div class="input-group">
+                                    <input type="text" id="descripcion" name="descripcion" [(ngModel)]="form().descripcion" class="form-control form-control-sm" placeholder="Descripción del producto" maxlength="50">
+                                    <span class="input-group-text">
+                                        <span class="material-symbols-rounded">
+                                            call
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-12 col-sm-3">
+                                <label for="precio" class="form-label">Precio</label>
+                                <div class="input-group">
+                                    <input type="number" id="precio" name="precio" [(ngModel)]="form().precio" class="form-control form-control-sm" placeholder="0.00">
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-3">
+                                <label for="existencia" class="form-label">Existencia</label>
+                                <div class="input-group">
+                                    <input type="number" id="existencia" name="existencia" [(ngModel)]="form().existencia" class="form-control form-control-sm" placeholder="0">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Actions -->
+                    <div class="card-footer text-end">
+                        <button type="submit" class="btn btn-primary btn-sm" [disabled]="!editarForm.valid || submitted()">
+                            @if (submitted()) {
+                            <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                            }@else{
+                            <span class="material-symbols-rounded">save</span>
+                            }
+                            Guardar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Editar imagen -->
+        <div class="col-12 col-sm-3">
+            <div class="card box-shadow-main mt-2">
+                <!-- Header -->
+                <div class="card-header">
+                    <div class="box-icon">
+                        <span class="material-symbols-rounded">image</span>
+                    </div>
+                    <span class="card-txt-title">Imágen del producto</span>
+                </div>
+                <!-- Body form -->
+                <form #imgForm="ngForm" ngNativeValidate (ngSubmit)="submitImg(imgForm.value)">
+                    <div class="card-body">
+                        @if(form().imagen != undefined && form().imagen != ''){
+                        <!-- Titulo -->
+                        <p class="form-title">Imágen del producto actual</p>
+                        <!-- Fila -->
+                        <div class="row mt-2">
+                            <!-- Img de perfil -->
+                            <div class="col-12 col-sm-12">
+                                <div [style.background-image]="'url(' + configService.getUrlPublicProducto() + '/' + form().imagen + ')'" class="img-perfil-form"></div>
+                            </div>
+                        </div>
+                        }
+                        <!-- Titulo -->
+                        <p class="form-title mt-3">Nueva imágen del producto</p>
+                        <!-- Fila -->
+                        <div class="row mt-2">
+                            <!-- Input form -->
+                            <div class="col-12 col-sm-12">
+                                <!-- Input seleccionar imagen -->
+                                <app-file-input [name]="'fileFoto'"
+                                                [ext]="imgExt"
+                                                [showImage]="true"
+                                                [placeholder]="'Selecciona una imágen'"
+                                                (onChangeFile)="getFileInput($event)" title="Imagen"></app-file-input>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Actions -->
+                    <div class="card-footer text-end">
+                        <button type="submit" class="btn btn-primary btn-sm" [disabled]="submittedImg()">
+                            @if (submittedImg()) {
+                            <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                            }@else{
+                            <span class="material-symbols-rounded">edit</span>
+                            }
+                            Editar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+</div>

@@ -15,9 +15,12 @@ const routes: Routes = [
 
   // Rutas de usuarios
   {
-    path: 'usuario',
+    path: '',
     component: MainLayoutComponent,
-    loadChildren: () => import('../components/usuario/usuario.routes').then(r => r.USUARIO_ROUTES),
+    children: [
+      { path: 'usuario', loadChildren: () => import('../components/usuario/usuario.routes').then(r => r.USUARIO_ROUTES) },
+      { path: 'producto', loadChildren: () => import('../components/producto/producto.routes').then(r => r.PRODUCTO_ROUTES) },
+    ]
   },
 
 ];

@@ -1,0 +1,106 @@
+<div class="container-fluid">
+    <!-- BREADCRUMD -->
+    <div class="row">
+        <div class="col-12 col-sm-6 d-flex align-items-center">
+            <span class="material-symbols-rounded bread-icon">package_2</span>
+            <a class="bread-a" routerLink="/producto">Producto &nbsp;</a>
+            <span class="bread-txt">/ &nbsp; Agregar</span>
+        </div>
+    </div>
+    <!-- CARD -->
+    <div class="row">
+        <div class="col-12 col-sm-6">
+            <div class="card bx-shadow mt-2">
+                <!-- Header -->
+                <div class="card-header">
+                    <div class="box-icon">
+                        <span class="material-symbols-rounded">package_2</span>
+                    </div>
+                    <span class="card-txt-title">Nuevo producto</span>
+                </div>
+                <!-- Body form -->
+                <form #agregarForm="ngForm" ngNativeValidate (ngSubmit)="submit(agregarForm.value)">
+                    <div class="card-body">
+                        <!-- Titulo -->
+                        <p class="form-title">Datos generales</p>
+                        <!-- Fila -->
+                        <div class="row">
+                            <!-- Input form -->
+                            <div class="col-12 col-sm-4">
+                                <!-- Label -->
+                                <label for="nombre" class="form-label">Nombre *</label>
+                                <!-- Input -->
+                                <div class="input-group">
+                                    <input type="text" id="nombre" name="nombre" [(ngModel)]="form.nombre" #nombre="ngModel" class="form-control form-control-sm" placeholder="Producto 001" required maxlength="250">
+                                    <span class="input-group-text">
+                                        <span class="material-symbols-rounded">
+                                            package_2
+                                        </span>
+                                    </span>
+                                </div>
+                                <!-- Validacion -->
+                                @if (nombre.invalid && (nombre.dirty || nombre.touched)) { <span class="span-error">{{errores.REQUIRED}}</span> }
+                            </div>
+                            <div class="col-12 col-sm-4">
+                                <label for="codigo" class="form-label">Codigo *</label>
+                                <div class="input-group">
+                                    <input type="text" id="codigo" name="codigo" [(ngModel)]="form.codigo" #codigo="ngModel" class="form-control form-control-sm" placeholder="C001" required maxlength="50" min="5">
+                                    <span class="input-group-text">
+                                        <span class="material-symbols-rounded">
+                                            barcode
+                                        </span>
+                                    </span>
+                                </div>
+                                @if (codigo.invalid && (codigo.dirty || codigo.touched)) { <span class="span-error">{{errores.REQUIRED}}</span> }
+                            </div>
+                            <div class="col-12 col-sm-4">
+                                <label for="descripcion" class="form-label">Descripción *</label>
+                                <div class="input-group">
+                                    <input type="text" id="descripcion" name="descripcion" [(ngModel)]="form.descripcion" #descripcion="ngModel" class="form-control form-control-sm" placeholder="Producto..." required maxlength="50" min="5">
+                                    <span class="input-group-text">
+                                        <span class="material-symbols-rounded">
+                                            text_snippet
+                                        </span>
+                                    </span>
+                                </div>
+                                @if (descripcion.invalid && (descripcion.dirty || descripcion.touched)) { <span class="span-error">{{errores.REQUIRED}}</span> }
+                            </div>
+                        </div>
+                        <p class="form-title mt-3">Datos personales</p>
+                        <div class="row">
+                            <div class="col-12 col-sm-4">
+                                <label for="precio" class="form-label">Precio *</label>
+                                <div class="input-group">
+                                    <input type="number" id="precio" name="precio" [(ngModel)]="form.precio" #precio="ngModel" class="form-control form-control-sm" placeholder="0.0" required>
+                                </div>
+                                @if (precio.invalid && (precio.dirty || precio.touched)) { <span class="span-error">{{errores.REQUIRED}}</span> }
+                            </div>
+                            <div class="col-12 col-sm-4">
+                                <label for="existencia" class="form-label">Existencia</label>
+                                <div class="input-group">
+                                    <input type="number" id="existencia" name="existencia" [(ngModel)]="form.existencia" class="form-control form-control-sm" placeholder="0">
+                                    <span class="input-group-text">
+                                        <span class="material-symbols-rounded">
+                                            shelves
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Actions -->
+                    <div class="card-footer text-end">
+                        <button type="submit" class="btn btn-primary btn-sm" [disabled]="!agregarForm.valid || submitted()">
+                            @if (submitted()) {
+                            <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                            }@else{
+                            <span class="material-symbols-rounded">save</span>
+                            }
+                            Guardar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

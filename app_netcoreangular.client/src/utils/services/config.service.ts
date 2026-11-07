@@ -19,6 +19,6 @@ export class ConfigService {
   }
 
   getUrlPublicProducto() {
-    return this._apiURI + "/files/img/producto";
+    return this._apiURI + "/files/img";
   }
 }

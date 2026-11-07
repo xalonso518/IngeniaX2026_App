@@ -1,0 +1,151 @@
+<!-- CONTENEDOR -->
+<div class="container-fluid">
+    <!-- BREADCRUMD -->
+    <div class="row">
+        <div class="col-6 col-sm-6 d-flex align-items-center">
+            <span class="material-symbols-rounded bread-icon">package_2</span>
+            <span class="bread-txt">Productos</span>
+        </div>
+        <div class="col-6 col-sm-6 text-end">
+            <button type="button" class="btn btn-primary btn-sm" (click)="openAgregar()">
+                <span class="material-symbols-rounded">add_circle</span>
+                Producto
+            </button>
+        </div>
+    </div>
+    <!-- BOX BUSCAR -->
+    <div class="row mt-2">
+        <div class="col-12">
+            <div class="box-buscar">
+                <!-- Header de busqueda-->
+                <div class="row box-buscar-head">
+                    <!-- Input buscar -->
+                    <div class="col-7 col-sm-4">
+                        <div class="input-group">
+                            <input type="text" id="filtro0" name="filtro0" [(ngModel)]="filtro" (keyup.enter)="buscarPorPalabra()" class="form-control form-control-sm input-buscar" placeholder="Buscar..." maxlength="50">
+                            <span class="input-group-text input-buscar-icon" style="cursor: pointer" (click)="buscarProductos()">
+                                <span class="material-symbols-rounded">
+                                    search
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                    <!-- Order -->
+                    <div class="col-5 col-sm-4 d-flex justify-content-end">
+                        <button class="btn btn-sm" [matMenuTriggerFor]="menu">
+                            <span class="material-symbols-rounded me-1">filter_list</span>
+                            {{sortHead[sortByIndex].value}}
+                        </button>
+                        <mat-menu #menu="matMenu">
+                            @for(sort of sortHead; track $index){
+                            <button mat-menu-item (click)="changeSort(sort.key, $index)">{{sort.value}}</button>
+                            }
+                        </mat-menu>
+                    </div>
+                </div>
+                <!-- Body Respuesta -->
+                <div class="row box-buscar-body">
+                    @if(loading()){
+                    <!-- Loading -->
+                    <div class="search-loading">
+                        <mat-spinner [diameter]="32"></mat-spinner>
+                    </div>
+                    }@else{
+                    @if(!loading() && (productos() == null || productos().length == 0)){
+                    <!-- Sin resultados -->
+                    <app-sin-resultados [boton_text]="'+ Productos'"></app-sin-resultados>
+                    }
+                    @else{
+                    <!-- Resultados -->
+                    <div class="list-items">
+                        <!-- Encabezado -->
+                        <div class="row row-head d-none d-md-flex">
+                            <div class="col col-12 col-md-3">
+                                <p>Nombre</p>
+                            </div>
+                            <div class="col col-12 col-md-2">
+                                <p>Código</p>
+                            </div>
+                            <div class="col col-12 col-md-2">
+                                <p>Precio</p>
+                            </div>
+                            <div class="col col-12 col-md-2">
+                                <p>Existencia</p>
+                            </div>
+                            <div class="col col-12 col-md-1 text-center">
+                                <p>Estado</p>
+                            </div>
+                            <div class="col col-12 col-md-1">
+                                <p></p>
+                            </div>
+                        </div>
+                        @for (producto of productos(); track $index) {
+                        <!-- Filas resultados -->
+                        <div class="row" style="--index: {{ $index }}">
+                            <!-- Columnas resultados -->
+                            <div class="col col-12 col-md-3 d-flex align-items-center row-img-content">
+                                @if(producto.imagen == "" || producto.imagen == undefined) {
+                                <span class="material-symbols-rounded list-img-profile">person</span>
+                                }
+                                @else {
+                                <div [style.background-image]="'url(' + configService.getUrlPublicProducto() + '/' + producto.imagen + ')'" class="img-perfil-list"></div>
+
+<!--                                 <div *ngIf="producto.imagen != '' && producto.imagen != null" [style.background-image]="'url(' + this.blobUrlPublic + producto.imagen + ')'" class="img_background_list"></div> -->
+                                }
+                                <p>{{producto.nombre}}</p>
+                            </div>
+                            <div class="col col-12 col-md-2">
+                                <p>{{producto.codigo}}</p>
+                            </div>
+                            <div class="col col-12 col-md-2">
+                                <p>{{producto.precio}}</p>
+                            </div>
+                            <div class="col col-12 col-md-1">
+                                <p>{{producto.existencia}}</p>
+                            </div>
+                            <div class="col col-6 col-md-1 text-center">
+                                <!-- Chip status -->
+                                <app-chip-status [status]="producto.status"></app-chip-status>
+                            </div>
+                            <div class="col col-6 col-md-1 d-flex justify-content-end">
+                                <!-- Menu opciones -->
+                                <button class="btn btn-icon" [matMenuTriggerFor]="menuOpciones">
+                                    <span class="material-symbols-rounded">menu</span>
+                                </button>
+                                <mat-menu #menuOpciones="matMenu">
+                                    <a mat-menu-item (click)="openEditar(producto)">
+                                        <span class="material-symbols-rounded">edit</span>
+                                        Editar
+                                    </a>
+                                    <a mat-menu-item (click)="openConfirmarEliminar(producto)">
+                                        <span class="material-symbols-rounded">delete</span>
+                                        Eliminar
+                                    </a>
+                                </mat-menu>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                    }
+                    }
+                </div>
+                <!-- Footer -->
+                <div class="row box-buscar-foot">
+                    <!-- Paginator -->
+                    @if(!loading() && productos() != null && productos().length > 0){
+                    <div class="list-paginator">
+                        <mat-paginator [length]="totalRegistros"
+                                       [pageSize]="pageSize"
+                                       [hidePageSize]="true"
+                                       [pageIndex]="page"
+                                       [showFirstLastButtons]="true"
+                                       (page)="cambiarPagina($event)">
+                        </mat-paginator>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -2,11 +2,16 @@ using System.Text;
 using App_NetCoreAngular.Server.Services.Token;
 using App_NetCoreAngular.Server.EntityFramework;
 using App_NetCoreAngular.Server.Repository.AuthRep;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using App_NetCoreAngular.Server.Repository.UsuarioRep;
 using App_NetCoreAngular.Server.Repository.UsuariorRep;
+using App_NetCoreAngular.Server.Repository.ProductoRep;
+using App_NetCoreAngular.Server.Services.Storage;
+using App_NetCoreAngular.Server.Providers.FileProvider;
+using App_NetCoreAngular.Server.Policies;
+using Microsoft.AspNetCore.Authorization;
+using static App_NetCoreAngular.Server.Enums.EnumDatabase;
 
 // Builder para la aplicación
 var builder = WebApplication.CreateBuilder(args);
@@ -39,16 +44,30 @@ builder.Services.AddAuthentication("Bearer")
         };
     });
 
+// Authorization - Policy
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("UserActive", policy => policy.Requirements.Add(new StatusUserRequirement(Estado.Activo.ToString("D"))));
+    options.AddPolicy("RolAdmin", policy => policy.Requirements.Add(new RolRequirement(RolUsuario.Admin.ToString("D"))));
+});
+
 // Context SQL Server - EntityFramework
 builder.Services.AddDbContext<AppDataContext>(options => options.UseSqlServer(builder.Configuration["SqlServer:DefaultConnection"]));
 
 // Dependency injection
+// Authorization policies handle
+builder.Services.AddTransient<IAuthorizationHandler, StatusUserHandler>();
+builder.Services.AddTransient<IAuthorizationHandler, RolHandler>();
+
 // Repositorios
 builder.Services.AddTransient<IAuthRepository, AuthRepository>();
 builder.Services.AddTransient<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddTransient<IProductoRepository, ProductoRepository>();
 
 // Servicios
 builder.Services.AddScoped<TokenService>();
+builder.Services.AddTransient<BlobStorage>();
+builder.Services.AddTransient<FileLocal>();
 
 
 // Logging
@@ -68,6 +87,12 @@ builder.Services.AddCors(options =>
     });
 });
 
+//  Archivos locales
+if (string.IsNullOrWhiteSpace(builder.Environment.WebRootPath))
+{
+    builder.Environment.WebRootPath = Path.Combine(builder.Environment.ContentRootPath, "wwwroot");
+}
+
 // Creamos aplicativo
 var app = builder.Build();
 
@@ -77,6 +102,9 @@ app.MapStaticAssets();
 
 // Generamos json para swagger
 app.UseSwagger();
+
+// Habilitamos archivos estáticos desde wwwroot directory
+app.UseStaticFiles();
 
 // Configurar HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -101,6 +129,7 @@ app.UseHttpsRedirection();
 app.UseCors("FrontendPolicy");
 
 // Authorization
+app.UseAuthentication();
 app.UseAuthorization();
 
 // Mapeamos controladores

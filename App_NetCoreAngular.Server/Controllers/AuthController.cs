@@ -5,7 +5,7 @@ using App_NetCoreAngular.Server.Services.Token;
 using App_NetCoreAngular.Server.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-namespace App_IngeniaX_2026.Server.Controllers
+namespace App_NetCoreAngular.Server.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
