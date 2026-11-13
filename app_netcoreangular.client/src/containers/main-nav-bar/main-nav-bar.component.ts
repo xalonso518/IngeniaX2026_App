@@ -7,12 +7,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConstantsSpaRoutes } from '../../utils/constants/ConstantsSpaRoutes';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { NotificacionAlertaComponent } from '../../components/notificacion/notificacion-alerta/notificacion-alerta.component';
 
 @Component({
   selector: 'app-main-nav-bar',
   templateUrl: './main-nav-bar.component.html',
   styleUrl: './main-nav-bar.component.css',
-  imports: [MatMenuModule, MatIconModule, MatButtonModule],
+  imports: [MatMenuModule, MatIconModule, MatButtonModule, NotificacionAlertaComponent],
 })
 export class MainNavBarComponent implements OnInit {
   // ATRIBUTOS

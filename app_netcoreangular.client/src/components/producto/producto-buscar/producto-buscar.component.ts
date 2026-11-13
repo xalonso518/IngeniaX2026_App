@@ -187,7 +187,7 @@ export class ProductoBuscarComponent {
             this._snackBar.open("Producto eliminado.", "", {verticalPosition: "top"});
 
             // Modificamos status reigstro actual
-            row.status = 99;
+            row.estado = 99;
           } else this.handleError.showError(res);
         },
         error: err => {

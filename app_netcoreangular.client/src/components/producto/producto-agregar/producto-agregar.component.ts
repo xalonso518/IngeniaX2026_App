@@ -60,7 +60,7 @@ export class ProductoAgregarComponent {
           // Validamos response
           if (res.success) {
             // Mostramos mensaje
-            this._snackBar.open("Producto creado.", "", {verticalPosition: "top"});
+            this._snackBar.open("Producto creado.", "", {verticalPosition: "top", duration: 3000});
 
           } else this.handleError.showError(res);
         },

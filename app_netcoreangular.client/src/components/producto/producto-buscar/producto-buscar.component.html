@@ -31,7 +31,7 @@
                         </div>
                     </div>
                     <!-- Order -->
-                    <div class="col-5 col-sm-4 d-flex justify-content-end">
+                    <div class="col-5 col-sm-8 d-flex justify-content-end">
                         <button class="btn btn-sm" [matMenuTriggerFor]="menu">
                             <span class="material-symbols-rounded me-1">filter_list</span>
                             {{sortHead[sortByIndex].value}}
@@ -44,7 +44,7 @@
                     </div>
                 </div>
                 <!-- Body Respuesta -->
-                <div class="row box-buscar-body">
+                <div class="row box-buscar-body mt-2">
                     @if(loading()){
                     <!-- Loading -->
                     <div class="search-loading">
@@ -100,12 +100,12 @@
                             <div class="col col-12 col-md-2">
                                 <p>{{producto.precio}}</p>
                             </div>
-                            <div class="col col-12 col-md-1">
+                            <div class="col col-12 col-md-2">
                                 <p>{{producto.existencia}}</p>
                             </div>
                             <div class="col col-6 col-md-1 text-center">
                                 <!-- Chip status -->
-                                <app-chip-status [status]="producto.status"></app-chip-status>
+                                <app-chip-status [status]="producto.estado"></app-chip-status>
                             </div>
                             <div class="col col-6 col-md-1 d-flex justify-content-end">
                                 <!-- Menu opciones -->

@@ -62,7 +62,7 @@ export class UsuarioAgregarComponent {
           // Validamos response
           if (res.success) {
             // Mostramos mensaje
-            this._snackBar.open("Usuario creado.", "", {verticalPosition: "top"});
+            this._snackBar.open("Usuario creado.", "", {verticalPosition: "top", duration: 3000});
             
             // Regresamos a buscar
             this.router.navigate([ConstantsSpaRoutes.SPA_USUARIO_BUSCAR]);

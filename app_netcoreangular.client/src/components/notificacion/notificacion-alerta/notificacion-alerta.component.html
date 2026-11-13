@@ -1,0 +1,40 @@
+<div class="btn-icon me-3 d-none d-sm-block" style="cursor: pointer;" [matMenuTriggerFor]="menu" (menuOpened)="onMenuOpened()">
+    <span class="material-symbols-rounded" [class]="{'animacion-campana' : (notificaciones().length > 0 || signalRService.notificaciones())}">
+        notifications
+        @if(signalRService.notificaciones().length > 0){
+        <span class="position-absolute top-0 start-100 translate-middle border border-light rounded-circle badge-notification">
+        </span>
+        }
+    </span>
+</div>
+
+<!-- Menu opciones -->
+<mat-menu #menu="matMenu" xPosition="before" style="max-width: 80% !important">
+    <div class="d-flex align-items-center justify-content-between px-3 py-2" (click)="$event.stopPropagation()">
+        <p class="modal-title">Notificaciones</p>
+    </div>
+    <hr style="margin-top: 6px;margin-bottom: 6px;" />
+    @if(loading()){
+    <!-- Loading -->
+    <div class="search-loading mt-3">
+        <mat-spinner [diameter]="32"></mat-spinner>
+    </div>
+    }@else{
+    @for (notificacion of notificaciones(); track $index) {
+    <div class="d-flex align-items-center justify-content-between px-2 row-notificacion" (click)="$event.stopPropagation()" style="--index: {{ $index }}">
+        <a class="a-porLeer me-2">
+            <span class="material-symbols-rounded" style="vertical-align: bottom;">schedule</span>
+        </a>
+        <div>
+            <p class="primary-text text-break m-0">{{notificacion}}</p>
+            <p class="secundary-text m-0">{{hoy | date: 'dd/MM/yyyy HH:mm'}}</p>
+        </div>
+    </div>
+    } @empty {
+    <div class="estado-chat sin-comentarios mb-3 mt-3 px-2">
+        <span class="material-symbols-rounded" style="vertical-align: bottom;">notifications</span>
+        <span>Sin notificaciones.</span>
+    </div>
+    }
+    }
+</mat-menu>

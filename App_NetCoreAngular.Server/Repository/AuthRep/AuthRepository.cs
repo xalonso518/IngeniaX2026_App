@@ -1,5 +1,7 @@
-﻿using App_NetCoreAngular.Server.EntityFramework;
+﻿using App_NetCoreAngular.SendGrid;
+using App_NetCoreAngular.Server.EntityFramework;
 using App_NetCoreAngular.Server.Models.Auth;
+using App_NetCoreAngular.Server.Models.Mail;
 using App_NetCoreAngular.Server.Models.Shared;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
@@ -10,10 +12,13 @@ namespace App_NetCoreAngular.Server.Repository.AuthRep
     public class AuthRepository: IAuthRepository
     {
         private readonly AppDataContext _context;
+        private readonly MailSendGrid _mailSend;
         public AuthRepository(
-            AppDataContext context)
+            AppDataContext context,
+            MailSendGrid mailSend)
         {
             _context = context;
+            _mailSend = mailSend;
         }
         public async Task<ResponseApi<AuthUsuarioView>> GetUsuarioPassword(LoginForm form)
         {
@@ -52,17 +57,72 @@ namespace App_NetCoreAngular.Server.Repository.AuthRep
         }
         public async Task<ResponseApi<string>> ValidateUsuario(ResetForm form)
         {
-            throw new NotImplementedException();
+            var res = new ResponseApi<string>() { Success = false };
+            try
+            {
+                var rUser = await _context.Usuarios
+                    .Where(r => r.Username == form.Email && r.Estado == Estado.Activo)
+                    .Select(r => r.Username).FirstOrDefaultAsync();
+
+                if (rUser != null)
+                {
+                    res.Success = true;
+                    res.Payload = rUser;
+                }
+                else
+                {
+                    res.Success = false;
+                    res.Error = "";
+                }
+            }
+            catch (Exception)
+            {
+                res.Error = "";
+            }
+            return res;
         }
 
-        public Task<ResponseApi<HttpStatusCode>> EnviarCorreoReset(string correo, string password)
+        public async Task<ResponseApi<HttpStatusCode>> EnviarCorreoReset(string correo, string password)
         {
-            throw new NotImplementedException();
+            // Crea objeto de correo
+            var mailBody = new Mail
+            {
+                Subject = "Contraseña restablecida",
+                To = correo,
+                Substitution = new Dictionary<string, string>() { { "password", password }, { "user", correo } }
+            };
+
+            //Envia correo de reset
+            var resultMail = await _mailSend.SendTemplateEmail(mailBody, "d-43da04d10f77498b9e553b838269e148");
+            return resultMail;
         }
 
-        public Task<ResponseApi<string>> UpdatePassword(string userName, string password)
+        public async Task<ResponseApi<string>> UpdatePassword(string userName, string password)
         {
-            throw new NotImplementedException();
+            var res = new ResponseApi<string>() { Success = false };
+
+            try
+            {
+                var response = await _context.Usuarios
+                    .Where(e => e.Username == userName)
+                    .ExecuteUpdateAsync(setters => setters.SetProperty(e => e.Password, password));
+
+                if (response != 0)
+                {
+                    res.Success = true;
+                    res.Payload = userName;
+                }
+                else
+                {
+                    res.Success = false;
+                    res.Payload = "";
+                }
+            }
+            catch (Exception)
+            {
+                res.Error = "";
+            }
+            return res;
         }
     }
 }

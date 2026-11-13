@@ -64,5 +64,49 @@ namespace App_NetCoreAngular.Server.Controllers
                 return BadRequest(res);
             }
         }
+        
+        ///<summary>
+        ///Reset password de usuario
+        ///</summary>
+        [AllowAnonymous]
+        [HttpPost("reset")]
+        public async Task<IActionResult> Reset([FromBody] ResetForm form)
+        {
+            // Response
+            var res = new ResponseApi<string> { Success = false };
+
+            // Verifica si está dado de alta el usuario
+            //var rUsuario = await _authRepository.ValidateUsuario(form);
+            //if (!rUsuario.Success) return BadRequest(res);
+
+            // Crea password
+            var password = HashUtilities.CreatePassword();
+            var passwordHash = HashUtilities.HashPassword(password);
+            
+                // Envia correo
+                var resultMailTest = await _authRepository.EnviarCorreoReset(form.Email, password);
+                if (resultMailTest.Success)
+                {
+                    res.Success = true;
+                    res.Payload = form.Email;
+                    return Ok(res);
+                }
+
+            // Actualiza contraseña
+            var rUpdate = await _authRepository.UpdatePassword(form.Email, passwordHash);
+            if (rUpdate.Success && rUpdate.Payload != null)
+            {
+                // Envia correo
+                var resultMail = await _authRepository.EnviarCorreoReset(form.Email, password);
+                if (resultMail.Success)
+                {
+                    res.Success = true;
+                    res.Payload = form.Email;
+                    return Ok(res);
+                }
+                else res.Error = "No se pudo reiniciar la contraseña, volver a intentarlo.";
+            }
+            return BadRequest(res);
+        }
     }
 }

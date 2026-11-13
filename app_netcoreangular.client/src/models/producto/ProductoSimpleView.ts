@@ -5,7 +5,7 @@ export interface ProductoSimpleView {
   imagen: string;
   precio: number;
   existencia: number;
-  status: number;
+  estado: number;
 }
 export interface ProductoView {
   productoId: number;
@@ -16,5 +16,5 @@ export interface ProductoView {
   precio: number;
   existencia: number;
   dateCreated: Date;
-  status: number;
+  estado: number;
 }

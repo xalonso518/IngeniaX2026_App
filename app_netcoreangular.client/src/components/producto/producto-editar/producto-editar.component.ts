@@ -160,7 +160,7 @@ export class ProductoEditarComponent {
           // Validamos response
           if (res.success) {
             // Mostramos mensaje
-            this._snackBar.open("Imágen de producto editada.", "", {verticalPosition: "top"});
+            this._snackBar.open("Imágen de producto editada.", "", {verticalPosition: "top", duration: 3000});
           } else this.handleError.showError(res);
         },
         error: err => {

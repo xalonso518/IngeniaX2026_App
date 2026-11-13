@@ -59,7 +59,7 @@ export class ResetPasswordComponent {
       .subscribe({
         next: res => {
         // Validamos respuesta exitosa
-          alert("Nueva contraseñagenerada.");
+          alert("Nueva contraseña generada.");
         },
         error: err => {
         // Mostramos errores

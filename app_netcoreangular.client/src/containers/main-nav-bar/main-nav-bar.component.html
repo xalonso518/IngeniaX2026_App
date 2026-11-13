@@ -1,10 +1,15 @@
 <div class="navbar-main">
+    <!-- NOTIFICACIONES ALERTA --> 
+    <app-notificacion-alerta></app-notificacion-alerta>
+
+    <!-- DATOS USUARIO -->
     @if(_iUser != null){
     <div class="d-flex flex-column me-3">
         <span class="nav-user">{{_iUser.nombre}}</span>
         <span class="nav-user">{{_iUser.username}}</span>
     </div>
     }
+    
     <!-- IMAGEN PERFIL -->
     <div class="user-profile">
         @if(_iUser.imagenPerfil == '' || _iUser.imagenPerfil == undefined){

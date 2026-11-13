@@ -17,5 +17,6 @@ namespace App_NetCoreAngular.Server.Repository.UsuariorRep
         Task<ResponseApi<string>> EditarImagenPerfil(long usuarioId, string img);
         Task<ResponseApi<string>> EliminarUsuario(string guid);
         Task<ResponseApi<bool>> ValidarExistencia(string username);
+        Task<ResponseApi<HttpStatusCode>> EnviarCorreoBienvenida(string correo);
     }
 }

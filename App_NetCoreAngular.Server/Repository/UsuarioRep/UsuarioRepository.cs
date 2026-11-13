@@ -1,5 +1,7 @@
 ﻿using App_IngeniaX_2026.Server.EntityFramework;
+using App_NetCoreAngular.SendGrid;
 using App_NetCoreAngular.Server.EntityFramework;
+using App_NetCoreAngular.Server.Models.Mail;
 using App_NetCoreAngular.Server.Models.Shared;
 using App_NetCoreAngular.Server.Models.Usuarios;
 using App_NetCoreAngular.Server.Repository.UsuariorRep;
@@ -12,10 +14,13 @@ namespace App_NetCoreAngular.Server.Repository.UsuarioRep
     public class UsuarioRepository: IUsuarioRepository
     {
         private readonly AppDataContext _context;
+        private readonly MailSendGrid _mailSend;
         public UsuarioRepository(
-            AppDataContext context)
+            AppDataContext context,
+            MailSendGrid mailSend)
         {
             _context = context;
+            _mailSend = mailSend;
         }
         public Usuario Crear(UsuarioForm usuario)
         {
@@ -323,6 +328,20 @@ namespace App_NetCoreAngular.Server.Repository.UsuarioRep
                 res.Error = "Error de conexión.";
             }
             return res;
+        }
+        
+        public async Task<ResponseApi<HttpStatusCode>> EnviarCorreoBienvenida(string correo)
+        {
+            var mailBody = new Mail
+            {
+                PlainTextContent = "Registro exitoso",
+                Subject = "Bienvenido!",
+                To = correo,
+                Substitution = new Dictionary<string, string>() { { "user", correo } }
+            };
+            var resultMail = await _mailSend.SendTemplateEmail(mailBody, "d-bd5c767378234615b030ad5d1b08c5ba");
+           
+            return resultMail;
         }
 
     }

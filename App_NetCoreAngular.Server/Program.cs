@@ -12,6 +12,9 @@ using App_NetCoreAngular.Server.Providers.FileProvider;
 using App_NetCoreAngular.Server.Policies;
 using Microsoft.AspNetCore.Authorization;
 using static App_NetCoreAngular.Server.Enums.EnumDatabase;
+using App_NetCoreAngular.SendGrid;
+using App_NetCoreAngular.Server.Services.SignalR;
+using Microsoft.AspNetCore.SignalR;
 
 // Builder para la aplicación
 var builder = WebApplication.CreateBuilder(args);
@@ -42,6 +45,25 @@ builder.Services.AddAuthentication("Bearer")
             ValidAudience = builder.Configuration["TokenSettings:Audience"],
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretToken))
         };
+        
+        // Configuracion hub
+        options.Events = new Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                var accessToken = context.Request.Query["access_token"];
+
+                // Valida si reques es del hub
+                var path = context.HttpContext.Request.Path;
+                if (!string.IsNullOrEmpty(accessToken) &&
+                    (path.StartsWithSegments("/api/hub")))
+                {
+                    // Obtiene el token del reques  y lo asigna al context
+                    context.Token = accessToken;
+                }
+                return Task.CompletedTask;
+            }
+        };
     });
 
 // Authorization - Policy
@@ -68,7 +90,12 @@ builder.Services.AddTransient<IProductoRepository, ProductoRepository>();
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddTransient<BlobStorage>();
 builder.Services.AddTransient<FileLocal>();
+builder.Services.AddTransient<MailSendGrid>();
 
+// Agregar SignalR al contenedor de servicios
+builder.Services.AddSignalR();
+builder.Services.AddScoped<NotificacionSignalR>();
+builder.Services.AddSingleton<IUserIdProvider, QueryStringUserIdProvider>();
 
 // Logging
 builder.Logging.ClearProviders();
@@ -134,6 +161,9 @@ app.UseAuthorization();
 
 // Mapeamos controladores
 app.MapControllers();
+
+// Ruta para los hubs de signal
+app.MapHub<MainHub>("/api/hub");
 
 // Ruta de inicio
 app.MapFallbackToFile("/index.html");

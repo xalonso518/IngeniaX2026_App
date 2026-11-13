@@ -2,6 +2,7 @@
 using App_NetCoreAngular.Server.Models.Shared;
 using App_NetCoreAngular.Server.Providers.FileProvider;
 using App_NetCoreAngular.Server.Repository.ProductoRep;
+using App_NetCoreAngular.Server.Services.SignalR;
 using App_NetCoreAngular.Server.Utility.Files;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,14 +20,17 @@ namespace App_NetCoreAngular.Server.Controllers
         // ID
         private readonly IProductoRepository _productoRepository;
         private readonly FileLocal _fileLocalRepository;
+        private readonly NotificacionSignalR _signalRService;
 
         public ProductoController(
             IProductoRepository productoRepository,
-            FileLocal fileLocalRepository
+            FileLocal fileLocalRepository,
+            NotificacionSignalR signalRService
             )
         {
             _productoRepository = productoRepository;
             _fileLocalRepository = fileLocalRepository;
+            _signalRService = signalRService;
         }
 
         // Obtenemos valores del claims del usuario autenticado
@@ -45,13 +49,19 @@ namespace App_NetCoreAngular.Server.Controllers
             // Crea objeto producto
             var nProducto = _productoRepository.Crear(form);
 
-            // Agrega producto
-            res = await _productoRepository.Agregar(nProducto);
-            if (res.Success)
-            {
-                // Regresar valor
-                return Ok(res);
-            }
+                // Enviamos notificacion de actualizacion a FRONT
+                var rSignal = await _signalRService.SendAsync(UserName, "Nuevo producto: " + form.Nombre);
+                return Ok(rSignal);
+            // // Agrega producto
+            // res = await _productoRepository.Agregar(nProducto);
+            // if (res.Success)
+            // {
+            //     // Enviamos notificacion de actualizacion a FRONT
+            //     var rSignal = await _signalRService.SendAsync(UserName, "Nuevo producto: " + form.Nombre);
+
+            //     // Regresar valor
+            //     return Ok(res);
+            // }
 
             return BadRequest(res);
         }
