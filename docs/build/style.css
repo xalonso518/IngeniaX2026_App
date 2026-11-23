@@ -1,0 +1,263 @@
+@page {
+  size: A4;
+  margin: 20mm 18mm 20mm 18mm;
+}
+
+html {
+  font-size: 10.5pt;
+}
+
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #1a1a1a;
+  line-height: 1.5;
+  margin: 0;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* Portada */
+h1:first-of-type {
+  font-size: 34pt;
+  line-height: 1.1;
+  text-align: center;
+  color: #0b2545;
+  border: none;
+  margin-top: 50mm;
+  margin-bottom: 6mm;
+  page-break-before: avoid;
+}
+
+h1:first-of-type + h2 {
+  font-size: 18pt;
+  text-align: center;
+  color: #13315c;
+  border: none;
+  margin: 0 0 4mm;
+}
+
+h1:first-of-type + h2 + h3 {
+  font-size: 12.5pt;
+  text-align: center;
+  color: #4a5568;
+  border: none;
+  font-weight: 400;
+  margin: 0 0 14mm;
+}
+
+h1:first-of-type + h2 + h3 + table {
+  width: 86%;
+  margin: 0 auto;
+  font-size: 9.5pt;
+}
+
+h1:first-of-type + h2 + h3 + table th {
+  background: #0b2545;
+  color: #ffffff;
+  border-color: #0b2545;
+}
+
+h1:first-of-type + h2 + h3 + table td:first-child {
+  font-weight: 600;
+  width: 32%;
+  background: #eef2f7;
+}
+
+/* Saltos de página */
+.pagebreak {
+  page-break-after: always;
+  height: 0;
+  margin: 0;
+}
+
+h1 {
+  font-size: 20pt;
+  color: #12355b;
+  border-bottom: 2pt solid #12355b;
+  padding-bottom: 2mm;
+  margin: 0 0 6mm;
+  page-break-before: always;
+  page-break-after: avoid;
+  break-after: avoid;
+  break-after: avoid-page;
+}
+
+h2 {
+  font-size: 14pt;
+  color: #12355b;
+  border-bottom: 0.75pt solid #cbd5e1;
+  padding-bottom: 1mm;
+  margin: 7mm 0 3mm;
+  page-break-after: avoid;
+  break-after: avoid;
+  break-after: avoid-page;
+}
+
+h3 {
+  font-size: 11.5pt;
+  color: #1f4e79;
+  margin: 4.5mm 0 2mm;
+  page-break-after: avoid;
+  break-after: avoid;
+  break-after: avoid-page;
+}
+
+h4 {
+  font-size: 10.5pt;
+  color: #1f2937;
+  margin: 4mm 0 1.5mm;
+  page-break-after: avoid;
+  break-after: avoid;
+  break-after: avoid-page;
+}
+
+p {
+  margin: 0 0 2.5mm;
+  text-align: justify;
+}
+
+ul,
+ol {
+  margin: 0 0 3mm;
+  padding-left: 6mm;
+}
+
+li {
+  margin-bottom: 1mm;
+}
+
+strong {
+  color: #0f172a;
+}
+
+/* Tablas */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2mm 0 4mm;
+  font-size: 8.5pt;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+h2 + table,
+h3 + table,
+h4 + table {
+  break-before: avoid;
+}
+
+.keep {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+thead {
+  display: table-header-group;
+}
+
+tr {
+  page-break-inside: avoid;
+}
+
+th {
+  background: #e8eef7;
+  color: #12355b;
+  font-weight: 600;
+  text-align: left;
+}
+
+th,
+td {
+  border: 0.5pt solid #b8c4d6;
+  padding: 1.2mm 1.7mm;
+  vertical-align: top;
+}
+
+tbody tr:nth-child(even) {
+  background: #f8fafc;
+}
+
+/* Código */
+code {
+  font-family: "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 8.5pt;
+  background: #f1f5f9;
+  padding: 0.3mm 1mm;
+  border-radius: 1.5pt;
+}
+
+pre {
+  background: #f6f8fa;
+  border: 0.5pt solid #d0d7de;
+  border-radius: 2pt;
+  padding: 2.5mm 3mm;
+  font-size: 8pt;
+  line-height: 1.35;
+  white-space: pre-wrap;
+  word-break: break-word;
+  page-break-inside: avoid;
+}
+
+pre code {
+  background: none;
+  padding: 0;
+  font-size: 8pt;
+}
+
+/* Citas y avisos */
+blockquote {
+  border-left: 3pt solid #94a3b8;
+  margin: 3mm 0;
+  padding: 2mm 4mm;
+  color: #475569;
+  background: #f8fafc;
+  page-break-inside: avoid;
+}
+
+blockquote p {
+  margin: 0;
+  text-align: left;
+}
+
+/* Imágenes y diagramas */
+img {
+  max-width: 100%;
+  max-height: 215mm;
+  width: auto;
+  height: auto;
+  display: block;
+  margin: 3mm auto;
+  page-break-inside: avoid;
+}
+
+figure {
+  margin: 3mm 0 4mm;
+  page-break-inside: avoid;
+  text-align: center;
+}
+
+figcaption {
+  font-size: 8.5pt;
+  color: #64748b;
+  text-align: center;
+  margin-top: 1mm;
+}
+
+/* Enlaces y separadores */
+a {
+  color: #1d4ed8;
+  text-decoration: none;
+}
+
+hr {
+  border: none;
+  border-top: 0.5pt solid #cbd5e1;
+  margin: 5mm 0;
+}
+
+/* Evitar viudas y huérfanas */
+p,
+li {
+  orphans: 2;
+  widows: 2;
+}

@@ -20,6 +20,7 @@ const routes: Routes = [
     children: [
       { path: 'usuario', loadChildren: () => import('../components/usuario/usuario.routes').then(r => r.USUARIO_ROUTES) },
       { path: 'producto', loadChildren: () => import('../components/producto/producto.routes').then(r => r.PRODUCTO_ROUTES) },
+      { path: 'pago', loadChildren: () => import('../components/pago/pago.routes').then(r => r.PAGO_ROUTES) },
     ]
   },
 

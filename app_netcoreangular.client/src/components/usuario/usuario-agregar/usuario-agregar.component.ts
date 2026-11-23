@@ -10,6 +10,7 @@ import { FormControl, FormsModule } from '@angular/forms';
 import { LoadingService } from '../../shared/loading/loading.service';
 import { ConstantsSpaRoutes } from '../../../utils/constants/ConstantsSpaRoutes';
 
+/** Gestiona el formulario de alta de usuarios y la respuesta del servicio. */
 @Component({
   selector: 'app-usuario-agregar',
   templateUrl: './usuario-agregar.component.html',
@@ -18,18 +19,21 @@ import { ConstantsSpaRoutes } from '../../../utils/constants/ConstantsSpaRoutes'
   providers: [UsuarioService]
 })
 export class UsuarioAgregarComponent {
-  // PROPIEDADES
+  /** Indica que el alta está en curso y deshabilita el envío repetido. */
   submitted = signal(false);
+
+  /** Notificación visual para confirmar el registro. */
   private _snackBar = inject(MatSnackBar);
 
-  // Catalogos
+  /** Roles disponibles para seleccionar en el formulario. */
   usuarioRoles = ConstantsCatalogos.USUARIO_ROLES;
+
+  /** Mensajes reutilizables para mostrar errores de validación. */
   errores = MESSAGES_ERROR;
 
-  // Form
+  /** Modelo enlazado a los controles del formulario y enviado al servicio. */
   form = new UsuarioForm();
 
-  // CONSTRUCTOR
   constructor(
     private router: Router,
     private usuarioService: UsuarioService,
@@ -38,46 +42,41 @@ export class UsuarioAgregarComponent {
   ) {
   }
 
-  // FUNCIONES
-  // Inicial
   ngOnInit(): void {
   
   }
 
-  // Evento submit
+  /** Atiende el envío del formulario y delega el modelo enlazado a sus controles. */
   submit(formAgregar: FormControl) {
     this.agregar(this.form);
   }
 
-  // Agregar usuario api
+  /**
+   * Solicita al servicio registrar al usuario y, si tiene éxito, muestra la
+   * confirmación y regresa a la búsqueda.
+   */
   async agregar(form: UsuarioForm) {
-    // Mostramos loadings
     this.submitted.set(true);
     this.loadingService.show();
 
-    // Llamamos API
     this.usuarioService.agregar(form)
       .subscribe({
         next: res => {
-          // Validamos response
           if (res.success) {
-            // Mostramos mensaje
             this._snackBar.open("Usuario creado.", "", {verticalPosition: "top", duration: 3000});
             
-            // Regresamos a buscar
             this.router.navigate([ConstantsSpaRoutes.SPA_USUARIO_BUSCAR]);
           } else this.handleError.showError(res);
         },
         error: err => {
-          // Ocultamos loadings
+          // Los errores no ejecutan `complete`, así que limpian el estado aquí.
           this.loadingService.hide();
           this.submitted.set(false);
 
-          // Mostramos errores
           this.handleError.showError(err);
         },
         complete: () => {
-        // Ocultamos loadings
+          // Al completar normalmente, libera el indicador y permite otro envío.
           this.loadingService.hide();
           this.submitted.set(false);
         }

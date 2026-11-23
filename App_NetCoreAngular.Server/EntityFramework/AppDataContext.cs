@@ -1,5 +1,6 @@
 ﻿using App_NetCoreAngular.Server.Models.Productos;
 using App_NetCoreAngular.Server.Models.Usuarios;
+using App_NetCoreAngular.Server.Models.Clientes;
 using Microsoft.EntityFrameworkCore;
 using static App_NetCoreAngular.Server.Enums.EnumDatabase;
 
@@ -13,6 +14,7 @@ namespace App_NetCoreAngular.Server.EntityFramework
         }
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Producto> Productos { get; set; }
+        public DbSet<Cliente> Clientes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

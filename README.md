@@ -28,3 +28,11 @@ git clone https://github.com/xalonso518/IngeniaX2026_App.git
 ###VISUAL STUDIO
 # Abre Visual Studio
 -Selecciona la opción "Clone a repository"
+
+---
+
+## Documentación del producto
+
+- [Descripción funcional y técnica (Markdown)](docs/IngeniaX2026_Descripcion_Producto.md)
+- [Versión Word](docs/IngeniaX2026_Descripcion_Producto.docx)
+- [Versión PDF](docs/IngeniaX2026_Descripcion_Producto.pdf)

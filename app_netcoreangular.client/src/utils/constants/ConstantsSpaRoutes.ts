@@ -14,4 +14,8 @@ export class ConstantsSpaRoutes {
   public static get SPA_PRODUCTO_AGREGAR(): string { return "/producto/agregar"; };
   public static get SPA_PRODUCTO_EDITAR(): string { return "/producto/editar"; };
   public static get SPA_PRODUCTO_IMAGEN_EDITAR(): string { return "/producto/imagen/editar"; };
+
+  
+  /* PAGAR */
+  public static get SPA_PRODUCTO_PAGO(): string { return "/pago"; };
 }

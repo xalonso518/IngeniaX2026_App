@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using App_NetCoreAngular.Server.Repository.UsuarioRep;
 using App_NetCoreAngular.Server.Repository.UsuariorRep;
 using App_NetCoreAngular.Server.Repository.ProductoRep;
+using App_NetCoreAngular.Server.Repository.ClienteRep;
 using App_NetCoreAngular.Server.Services.Storage;
 using App_NetCoreAngular.Server.Providers.FileProvider;
 using App_NetCoreAngular.Server.Policies;
@@ -15,6 +16,7 @@ using static App_NetCoreAngular.Server.Enums.EnumDatabase;
 using App_NetCoreAngular.SendGrid;
 using App_NetCoreAngular.Server.Services.SignalR;
 using Microsoft.AspNetCore.SignalR;
+using Stripe;
 
 // Builder para la aplicación
 var builder = WebApplication.CreateBuilder(args);
@@ -85,9 +87,10 @@ builder.Services.AddTransient<IAuthorizationHandler, RolHandler>();
 builder.Services.AddTransient<IAuthRepository, AuthRepository>();
 builder.Services.AddTransient<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddTransient<IProductoRepository, ProductoRepository>();
+builder.Services.AddTransient<IClienteRepository, ClienteRepository>();
 
 // Servicios
-builder.Services.AddScoped<TokenService>();
+builder.Services.AddScoped<App_NetCoreAngular.Server.Services.Token.TokenService>();
 builder.Services.AddTransient<BlobStorage>();
 builder.Services.AddTransient<FileLocal>();
 builder.Services.AddTransient<MailSendGrid>();
@@ -96,6 +99,11 @@ builder.Services.AddTransient<MailSendGrid>();
 builder.Services.AddSignalR();
 builder.Services.AddScoped<NotificacionSignalR>();
 builder.Services.AddSingleton<IUserIdProvider, QueryStringUserIdProvider>();
+
+// Agregar Stripe
+builder.Services.AddSingleton(new StripeClient(builder.Configuration["StripeApi"]));
+builder.Services.AddTransient<StripeService>();
+
 
 // Logging
 builder.Logging.ClearProviders();

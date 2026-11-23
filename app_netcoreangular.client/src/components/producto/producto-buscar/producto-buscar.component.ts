@@ -158,6 +158,11 @@ export class ProductoBuscarComponent {
   openEditar(row: ProductoSimpleView) {
     this.router.navigate([ConstantsSpaRoutes.SPA_PRODUCTO_EDITAR, row.productoId]);
   }
+  
+  // Ir a pagar
+  openPagar(row: ProductoSimpleView) {
+    this.router.navigate([ConstantsSpaRoutes.SPA_PRODUCTO_PAGO]);
+  }
 
   // Abrir modal eliminar
   openConfirmarEliminar(row: ProductoSimpleView) {

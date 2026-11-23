@@ -1,0 +1,53 @@
+<!-- 
+<section>
+    <form #agregarForm="ngForm" ngNativeValidate (ngSubmit)="submit(agregarForm.value)">
+        <button type="submit" id="checkout-button">Checkout</button>
+    </form>
+</section> -->
+
+<div class="container-fluid">
+    <!-- BREADCRUMD -->
+    <div class="row">
+        <div class="col-12 col-sm-6 d-flex align-items-center">
+            <span class="material-symbols-rounded bread-icon">payment</span>
+            <a class="bread-a" routerLink="/producto">Pago &nbsp;</a>
+            <span class="bread-txt">/ &nbsp; Checkout</span>
+        </div>
+    </div>
+    <!-- CARD -->
+    <div class="row">
+        <div class="col-12 col-sm-4">
+            <div class="card bx-shadow mt-2">
+                <!-- Header -->
+                <div class="card-header">
+                    <div class="box-icon">
+                        <span class="material-symbols-rounded">package_2</span>
+                    </div>
+                    <span class="card-txt-title">Pagar producto</span>
+                </div>
+                <!-- Body form -->
+                <form #agregarForm="ngForm" ngNativeValidate (ngSubmit)="submit(agregarForm.value)">
+
+                    <div class="product text-center mb-3">
+                        <img src="https://i.imgur.com/EHyR2nP.png" class="img-thumbnail my-3" alt="..." style="height: 250px;">
+                        <div class="description">
+                            <h3>Producto 1</h3>
+                            <h5>$15.00 MXN</h5>
+                        </div>
+                    </div>
+                    <!-- Actions -->
+                    <div class="card-footer text-end">
+                        <button type="submit" class="btn btn-primary btn-sm" [disabled]="!agregarForm.valid || submitted()">
+                            @if (submitted()) {
+                            <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                            }@else{
+                            <span class="material-symbols-rounded">shopping_bag</span>
+                            }
+                            Pagar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

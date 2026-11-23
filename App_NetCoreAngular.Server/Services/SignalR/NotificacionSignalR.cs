@@ -24,6 +24,8 @@ namespace App_NetCoreAngular.Server.Services.SignalR
             try
             {
                 await _hubContext.Clients.User(username).SendAsync("ReceiveNotificationUser", mensaje);
+                //await _hubContext.Clients.User(username).SendAsync("AltaProducto", mensaje);
+                //await _hubContext.Clients.User(username).SendAsync("AltaUsuario", mensaje);
             }
             catch (Exception e)
             {
